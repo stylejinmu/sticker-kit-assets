@@ -1,13 +1,13 @@
 ---
 name: sticker-kit-assets
-description: 微信表情包合辑配套素材生成工具，支持生成合辑文案（合辑名称、合辑介绍、赞赏引导语）及每个表情的含义词（最多四个字），以及横幅图、封面图、图标、赞赏引导图、赞赏致谢图。不包含表情图本身的生成。横幅图和赞赏引导图须使用彩色不透明背景，禁止透明背景，禁止白色或接近白色的背景/边缘；赞赏致谢图须使用非透明的彩色背景；封面图和图标默认使用透明背景。所有图片须颜色鲜明、主体突出；含文字的图片须确保文字清晰可见（高对比度、字号适当、无遮挡）。
+description: 微信表情包合辑配套素材生成工具，支持生成合辑文案（合辑名称、合辑介绍、赞赏引导语）及每个表情的含义词（最多四个字），以及横幅图、封面图、图标、赞赏引导图、赞赏致谢图。不包含表情图本身的生成。横幅图和赞赏引导图须使用彩色不透明背景，禁止透明背景，禁止白色或接近白色的背景/边缘；横幅图须确保主体或背景元素横向铺满画布，两侧不得留白边、预留空边或任何形式的纯色边；赞赏致谢图须使用非透明的彩色背景；封面图和图标默认使用透明背景。所有图片须颜色鲜明、主体突出；含文字的图片须确保文字清晰可见（高对比度、字号适当、无遮挡）。
 ---
 
 # Sticker Kit Assets（微信表情包配套素材助手）
 
 本 Skill 用于生成微信表情包开放平台所需的**配套素材**及**合辑文案**，严格遵循官方规范。**不包含表情图本身的生成**。
 
-**封面图、图标默认使用透明背景**。**横幅图和赞赏引导图须使用彩色不透明背景**，禁止透明背景，禁止白色或接近白色的背景/边缘。**赞赏致谢图须使用非透明的彩色背景**。
+**封面图、图标默认使用透明背景**。**横幅图和赞赏引导图须使用彩色不透明背景**，禁止透明背景，禁止白色或接近白色的背景/边缘。**横幅图须确保主体或背景元素横向铺满画布，两侧不得留白边、预留空边或任何形式的纯色边（包括与背景色相同的纯色填充带）**。**赞赏致谢图须使用非透明的彩色背景**。
 
 **视觉质量核心原则**：所有图片须**颜色鲜明饱和**（避免灰暗、低饱和度色调）、**主体突出**（主体占据画面主要区域）；含文字的图片须确保**文字清晰可见**（高对比度、字号不低于画面宽度的 5%、不被其他元素遮挡）。
 
@@ -105,7 +105,7 @@ description: 微信表情包合辑配套素材生成工具，支持生成合辑�
 
 | 素材类型 | 格式 | 尺寸 (px) | 体积限制 | 数量 | 核心设计要求 |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **横幅图** | PNG | 750 × 400 | < 500 KB | 1 | **无文字**；色调明朗；具故事性；**须使用彩色不透明背景**；**禁止透明背景**；**避免白色或接近白色的背景/边缘**；**颜色鲜明，主体突出** |
+| **横幅图** | PNG | 750 × 400 | < 500 KB | 1 | **无文字**；色调明朗；具故事性；**须使用彩色不透明背景**；**禁止透明背景**；**避免白色或接近白色的背景/边缘**；**主体或背景元素须横向铺满画布，两侧不得留白边、预留空边或任何形式的纯色边**；**颜色鲜明，主体突出** |
 | **封面图** | PNG | 240 × 240 | < 500 KB | 1 | **透明背景**；正面半身/全身像；无白色描边/锯齿；**颜色鲜明，主体突出** |
 | **图标** | PNG | 50 × 50 | < 100 KB | 1 | **透明背景**；头部正面；无白色描边/锯齿；无方框；**颜色鲜明** |
 | **赞赏引导** | GIF/PNG | 750 × 560 | < 500 KB | 1 | 风格一致；引导用户赞赏；**须使用彩色不透明背景**；**禁止透明背景**；**避免白色或接近白色的背景/边缘**；**颜色鲜明，主体突出**；**文字清晰可见（高对比度）** |
@@ -120,20 +120,22 @@ description: 微信表情包合辑配套素材生成工具，支持生成合辑�
 使用内置脚本 `scripts/process_sticker.py` 进行自动化处理，确保尺寸和体积达标。`transparent` 参数默认为 `True`，无需显式传入。
 
 ```bash
+SKILL_DIR="$(dirname "$0")"  # 或替换为 skill 目录的实际绝对路径
+
 # 生成封面图 (240×240, PNG, 透明背景 — 默认)
-python3 /home/ubuntu/skills/sticker-kit-assets/scripts/process_sticker.py input.png cover.png 240 240 PNG 500
+python3 "$SKILL_DIR/scripts/process_sticker.py" input.png cover.png 240 240 PNG 500
 
 # 生成图标 (50×50, PNG, 透明背景 — 默认)
-python3 /home/ubuntu/skills/sticker-kit-assets/scripts/process_sticker.py head.png icon.png 50 50 PNG 100
+python3 "$SKILL_DIR/scripts/process_sticker.py" head.png icon.png 50 50 PNG 100
 
 # 生成横幅图 (750×400, PNG, 彩色不透明背景 — 必须关闭透明，避免白色背景)
-python3 /home/ubuntu/skills/sticker-kit-assets/scripts/process_sticker.py banner_input.png banner.png 750 400 PNG 500 False
+python3 "$SKILL_DIR/scripts/process_sticker.py" banner_input.png banner.png 750 400 PNG 500 False
 
 # 生成赞赏引导图 (750×560, PNG, 彩色不透明背景 — 必须关闭透明，避免白色背景)
-python3 /home/ubuntu/skills/sticker-kit-assets/scripts/process_sticker.py guide_input.png guide.png 750 560 PNG 500 False
+python3 "$SKILL_DIR/scripts/process_sticker.py" guide_input.png guide.png 750 560 PNG 500 False
 
 # 生成赞赏致谢图 (750×750, PNG, 彩色不透明背景 — 必须关闭透明)
-python3 /home/ubuntu/skills/sticker-kit-assets/scripts/process_sticker.py thanks.png thanks_out.png 750 750 PNG 500 False
+python3 "$SKILL_DIR/scripts/process_sticker.py" thanks.png thanks_out.png 750 750 PNG 500 False
 ```
 
 **参数顺序：** `input_path`, `output_path`, `width`, `height`, `format`, `max_kb`, `[transparent=True]`, `[is_animated=False]`, `[loop_gif=False]`
@@ -157,7 +159,7 @@ python3 /home/ubuntu/skills/sticker-kit-assets/scripts/process_sticker.py thanks
 
 ### 特定要求
 
-- **横幅图**：绝对不能出现文字；色调活泼，与微信底色有区分；**须使用彩色不透明背景**；**禁止透明背景**；**禁止白色或接近白色的背景/边缘**；**颜色鲜明饱和，主体形象占画面主要区域**。
+- **横幅图**：绝对不能出现文字；色调活泼，与微信底色有区分；**须使用彩色不透明背景**；**禁止透明背景**；**禁止白色或接近白色的背景/边缘**；**主体或背景元素须横向铺满画布，两侧不得留白边、预留空边或任何形式的纯色边（包括与背景色相同的纯色填充带）**；**颜色鲜明饱和，主体形象占画面主要区域**。
 - **封面/图标**：形象不应有白色描边，边缘需平滑无锯齿；**颜色鲜明，主体清晰突出**。
 - **赞赏引导图**：内容必须与表情主题高度相关，风格统一；**须使用彩色不透明背景**；**禁止透明背景**；**禁止白色或接近白色的背景/边缘**；**文字须与背景高对比度，清晰可见**；**主体形象突出，不被文字或装饰遮挡核心部位**。
 - **赞赏致谢图**：内容必须与表情主题高度相关，风格统一；**禁止使用透明背景**；**须使用彩色不透明背景**；**避免白色或接近白色的背景/边缘**；**文字须与背景高对比度，清晰可见**；**主体形象突出，颜色鲜明**。
@@ -186,7 +188,7 @@ python3 /home/ubuntu/skills/sticker-kit-assets/scripts/process_sticker.py thanks
 
 | 素材类型 | 提示词示例（关键部分） |
 | :--- | :--- |
-| 横幅图 | `vibrant background color, cute character prominent in center, no text, colorful scene, saturated palette` |
+| 横幅图 | `vibrant background color fills entire canvas edge to edge, cute character prominent, no text, colorful scene, saturated palette, no solid color borders or margins on sides` |
 | 封面图 | `character full body or half body, vibrant colors, transparent background, clean edges, no white outline` |
 | 赞赏引导图 | `colorful background, character and reward text, high contrast text, bold readable font, vibrant colors` |
 | 赞赏致谢图 | `colorful background, thank you theme, character prominent, high contrast text, vibrant saturated colors` |
@@ -198,3 +200,4 @@ python3 /home/ubuntu/skills/sticker-kit-assets/scripts/process_sticker.py thanks
 - 图片体积超标：脚本会自动尝试降低质量；若仍超标，请简化画面或减少 GIF 帧数。
 - 出现锯齿：检查源文件分辨率或增加抗锯齿处理。
 - GIF 透明区域显示异常：检查源文件是否包含正确的 Alpha 通道。
+- 横幅图两侧出现纯色边：检查 AI 生成图是否在两侧留有空白或纯色填充带，重新生成时在提示词中强调 `fills entire canvas edge to edge, no side margins`。
